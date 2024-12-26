@@ -8,7 +8,8 @@ class ActPagePosProviderNotifiers extends StateNotifier<int> {
 
   void changeActivePostions(int actPos, BuildContext context) {
     state = actPos;
-    context.go("/home/${HomeScreen.pages[state].pageName}");
+    context.goNamed(HomeScreen.pageConfig.pageName,
+        pathParameters: {"tab": HomeScreen.pages[actPos].pageName});
   }
 }
 

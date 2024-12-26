@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:wcycle_admin_panel/api/apis.dart';
+import 'package:wcycle_admin_panel/core/page_config.dart';
 
 import 'package:wcycle_admin_panel/helper/font_helper.dart';
 import 'package:wcycle_admin_panel/page/add/add_events_items.dart';
@@ -22,18 +23,18 @@ final apis = Apis();
 final fontHelper = FontHelper();
 
 final addPages = [
-  const AddRecycableCategory(),
-  const AddLitteredSpotItems(),
-  const AddEventsItems(),
+  AddRecycableCategory.pageConfig,
+  AddLitteredSpotItems.pageConfig,
+  AddEventsItems.pageConfig,
 ];
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key, String? tab});
 
+  static const pageConfig = PageConfig(pageName: "home", child: HomeScreen());
+
   void onAddBtn(int actPosition, BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => addPages[actPosition - 1],
-    ));
+    context.pushNamed(addPages[actPosition - 1].pageName);
   }
 
   static final pages = [

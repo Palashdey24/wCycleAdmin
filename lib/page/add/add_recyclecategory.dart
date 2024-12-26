@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:wcycle_admin_panel/api/apis.dart';
+import 'package:wcycle_admin_panel/core/page_config.dart';
 import 'package:wcycle_admin_panel/helper/dialogs_helper.dart';
 import 'package:wcycle_admin_panel/helper/firebase_helper.dart';
 import 'package:wcycle_admin_panel/utlits/style.dart';
@@ -16,6 +17,8 @@ final firebaseHelper = FirebaseHelper();
 class AddRecycableCategory extends StatelessWidget {
   const AddRecycableCategory({super.key});
 
+  static const pageConfig =
+      PageConfig(pageName: "addRecycleCategory", child: AddRecycableCategory());
   @override
   Widget build(BuildContext context) {
     late String recycleName;
