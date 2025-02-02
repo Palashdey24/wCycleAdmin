@@ -21,8 +21,6 @@ class DashboardPage extends StatelessWidget {
             Gap(normalGap),
             DashboardKpi(),
             Gap(normalGap),
-            DashboardKpi(),
-            Gap(normalGap),
           ],
         )
       ],

@@ -32,7 +32,7 @@ class FormTextTexts extends StatelessWidget {
       style: const TextStyle(color: Colors.black),
       maxLength: maxLen ?? 256,
       keyboardType: fieldType,
-      maxLines: maxLines,
+      maxLines: obsecureTXt == true ? 1 : maxLines,
       obscureText: obsecureTXt ?? false,
       initialValue: intValue,
       decoration: InputDecoration(

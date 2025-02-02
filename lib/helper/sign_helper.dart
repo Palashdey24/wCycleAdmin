@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wcycle_admin_panel/api/apis.dart';
 import 'package:wcycle_admin_panel/screen/home_screen.dart';
-import 'package:flutter/material.dart';
 
 import 'dialogs_helper.dart';
 
@@ -23,13 +24,11 @@ class SignHelper {
           if (!context.mounted) {
             return;
           } else {
-            if (isAdmin.exists) {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HomeScreen(),
-                  ),
-                  ModalRoute.withName("/home"));
+            if (isAdmin['email'] == emailAddress) {
+              context.replaceNamed(HomeScreen.pageConfig.pageName);
+              Navigator.pop(context);
+              dialog.showMessage(context, "You are Admin! Step back please");
+
 /*              Navigator.pushAndRemoveUntil(
                   context,
 
@@ -47,9 +46,10 @@ class SignHelper {
       );
     } on FirebaseAuthException catch (e) {
       if (!context.mounted) return;
-      Navigator.pop(context);
+
       dialog.removeMessage(context);
       dialog.showMessage(context, "Issue: ${e.message}");
+      Navigator.pop(context);
     }
   }
 }

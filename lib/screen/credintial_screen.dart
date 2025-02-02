@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:wcycle_admin_panel/api/apis.dart';
+import 'package:wcycle_admin_panel/core/page_config.dart';
 import 'package:wcycle_admin_panel/helper/dialogs_helper.dart';
 import 'package:wcycle_admin_panel/helper/sign_helper.dart';
 import 'package:wcycle_admin_panel/utlits/style.dart';
 import 'package:wcycle_admin_panel/widgets/eliptical_btn.dart';
 import 'package:wcycle_admin_panel/widgets/form_text_texts.dart';
-import 'package:gap/gap.dart';
 
 final signHelp = SignHelper();
 final apis = Apis();
 final dialog = DialogsHelper();
 final _formKeyLogEmail = GlobalKey<FormState>();
 
-class CredintialScreen extends StatefulWidget {
-  const CredintialScreen({super.key});
+class CredentialScreen extends StatefulWidget {
+  const CredentialScreen({super.key});
+
+  static const pageConfig =
+      PageConfig(pageName: "credential", child: CredentialScreen());
 
   @override
-  State<CredintialScreen> createState() => _CredintialScreenState();
+  State<CredentialScreen> createState() => _CredentialScreenState();
 }
 
-class _CredintialScreenState extends State<CredintialScreen> {
+class _CredentialScreenState extends State<CredentialScreen> {
   String? emailAddress;
   String? logPass;
 

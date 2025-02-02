@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
@@ -64,93 +62,89 @@ class AddEventsItems extends StatelessWidget {
       }
     }
 
-    return Scaffold(
-        backgroundColor: Colors.indigo.withOpacity(0.7),
-        body: Center(
-          child: SizedBox(
-            width: api.deviceWidth(context) / 2,
-            child: Card(
-              elevation: 10,
-              shape: const RoundedRectangleBorder(
-                  side: BorderSide(color: Colors.orange, width: 3),
-                  borderRadius: BorderRadius.all(Radius.circular(45))),
-              color: Colors.blueGrey,
-              child: Form(
-                  key: formKey,
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
+    return Center(
+      child: FractionallySizedBox(
+        widthFactor: 0.9,
+        child: Card(
+          elevation: 10,
+          shape: const RoundedRectangleBorder(
+              side: BorderSide(color: Colors.orange, width: 3),
+              borderRadius: BorderRadius.all(Radius.circular(45))),
+          color: Colors.blueGrey,
+          child: Form(
+              key: formKey,
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Gap(largeGap),
+                    UploadImage(
+                      storageRef: "Events",
+                      downloadUriFn: (uri) => ltImage = uri,
+                    ),
+                    const Gap(csGap),
+                    FormTextTexts(
+                        iconData: FontAwesomeIcons.recycle,
+                        fieldlabel: "Events Tittle",
+                        fieldHint: "Please add event Tittle like we save tree",
+                        fieldType: TextInputType.text,
+                        vaildator: (value) {
+                          if (value == null ||
+                              value.trim().isEmpty ||
+                              value.trim().length < 3) {
+                            return "Please add A event Tittle";
+                          }
+                          eventTittle = value;
+                          return null;
+                        }),
+                    const Gap(csGap + 20),
+                    FormTextTexts(
+                        iconData: FontAwesomeIcons.prescriptionBottleMedical,
+                        fieldlabel: "Descriptions",
+                        fieldHint: "Please add Descriptions",
+                        fieldType: TextInputType.text,
+                        maxLen: 256,
+                        maxLines: 7,
+                        vaildator: (value) {
+                          if (value == null ||
+                              value.trim().isEmpty ||
+                              value.trim().length < 3) {
+                            return "Please add A Descriptions";
+                          }
+                          eventDescription = value;
+                          return null;
+                        }),
+                    const Gap(csGap + 20),
+                    TimeDateCollector(
+                      onSelDate: (date) {
+                        eventDate = date;
+                      },
+                      onSelTime: (time) {
+                        eventTime = time;
+                      },
+                    ),
+                    const Gap(largeGap),
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Gap(largeGap),
-                        UploadImage(
-                          storageRef: "Events",
-                          downloadUriFn: (uri) => ltImage = uri,
-                        ),
-                        const Gap(csGap),
-                        FormTextTexts(
-                            iconData: FontAwesomeIcons.recycle,
-                            fieldlabel: "Events Tittle",
-                            fieldHint:
-                                "Please add event Tittle like we save tree",
-                            fieldType: TextInputType.text,
-                            vaildator: (value) {
-                              if (value == null ||
-                                  value.trim().isEmpty ||
-                                  value.trim().length < 3) {
-                                return "Please add A event Tittle";
-                              }
-                              eventTittle = value;
-                              return null;
-                            }),
-                        const Gap(csGap + 20),
-                        FormTextTexts(
-                            iconData:
-                                FontAwesomeIcons.prescriptionBottleMedical,
-                            fieldlabel: "Descriptions",
-                            fieldHint: "Please add Descriptions",
-                            fieldType: TextInputType.text,
-                            maxLen: 256,
-                            maxLines: 7,
-                            vaildator: (value) {
-                              if (value == null ||
-                                  value.trim().isEmpty ||
-                                  value.trim().length < 3) {
-                                return "Please add A Descriptions";
-                              }
-                              eventDescription = value;
-                              return null;
-                            }),
-                        const Gap(csGap + 20),
-                        TimeDateCollector(
-                          onSelDate: (date) {
-                            eventDate = date;
-                          },
-                          onSelTime: (time) {
-                            eventTime = time;
-                          },
-                        ),
-                        const Gap(largeGap),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ElevatedButton.icon(
-                                onPressed: () => formKey.currentState!.reset(),
-                                icon: const Icon(Icons.refresh),
-                                label: const Text("Reset")),
-                            const Spacer(),
-                            ElevatedButton.icon(
-                                onPressed: onSave,
-                                icon: const Icon(Icons.data_saver_on_rounded),
-                                label: const Text("Save")),
-                          ],
-                        ),
+                        ElevatedButton.icon(
+                            onPressed: () => formKey.currentState!.reset(),
+                            icon: const Icon(Icons.refresh),
+                            label: const Text("Reset")),
+                        const Spacer(),
+                        ElevatedButton.icon(
+                            onPressed: onSave,
+                            icon: const Icon(Icons.data_saver_on_rounded),
+                            label: const Text("Save")),
                       ],
                     ),
-                  )),
-            ),
-          ),
-        ));
+                  ],
+                ),
+              )),
+        ),
+      ),
+    );
   }
 }

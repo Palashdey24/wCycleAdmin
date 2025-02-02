@@ -1,10 +1,13 @@
 import 'dart:io';
+
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:wcycle_admin_panel/config/theme/app_color.dart';
+import 'package:wcycle_admin_panel/core/dimensions/app_gap.dart';
 import 'package:wcycle_admin_panel/helper/firebase_helper.dart';
 import 'package:wcycle_admin_panel/helper/image_picker_helper.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:wcycle_admin_panel/widgets/loading_widget.dart';
 
 final imagePickerHelper = ImagePickerHelper();
@@ -48,7 +51,7 @@ class _UploadImageState extends State<UploadImage> {
 
       return;
     }
-    if (!context.mounted) return;
+    if (!mounted) return;
 
     Navigator.pop(context);
 
@@ -102,14 +105,18 @@ class _UploadImageState extends State<UploadImage> {
               maxRadius: 70,
               child: LoadingWidgets(),
             )
-          : CircleAvatar(
-              radius: 70,
-              backgroundColor: Colors.black,
+          : Card(
+              clipBehavior: Clip.hardEdge,
+              shape: const CircleBorder(),
+              color: AppColor.kSecondColor,
               child: uploadUri == null
-                  ? const FaIcon(
-                      FontAwesomeIcons.cloudArrowUp,
-                      color: Colors.redAccent,
-                      size: 65,
+                  ? const Padding(
+                      padding: EdgeInsets.all(AppGap.kMediumGap),
+                      child: FaIcon(
+                        FontAwesomeIcons.cloudArrowUp,
+                        color: Colors.redAccent,
+                        size: 65,
+                      ),
                     )
                   : imageProvider,
             ),

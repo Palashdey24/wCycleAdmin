@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wcycle_admin_panel/page/add/add_events_items.dart';
 import 'package:wcycle_admin_panel/page/add/add_littered_spot_items.dart';
 import 'package:wcycle_admin_panel/page/add/add_recyclecategory.dart';
-import 'package:wcycle_admin_panel/page/dashboard_page.dart';
+import 'package:wcycle_admin_panel/screen/credintial_screen.dart';
 import 'package:wcycle_admin_panel/screen/home_screen.dart';
 
 final GlobalKey<NavigatorState> navigatorKey =
@@ -11,13 +11,17 @@ final GlobalKey<NavigatorState> navigatorKey =
 final GlobalKey<NavigatorState> _sheelKey =
     GlobalKey<NavigatorState>(debugLabel: "shell");
 
-const String _basePath = "/home";
+const String _basePath = "/WCycleDatabase";
 final routes = GoRouter(
-    initialLocation: "$_basePath/${DashboardPage.pageConfig.pageName}",
+    initialLocation: "$_basePath/${HomeScreen.pageConfig.pageName}",
     navigatorKey: navigatorKey,
     routes: [
       GoRoute(
-        path: "/home",
+        path: "$_basePath/${CredentialScreen.pageConfig.pageName}",
+        builder: (context, state) => const CredentialScreen(),
+      ),
+      GoRoute(
+        path: "$_basePath/${HomeScreen.pageConfig.pageName}",
         builder: (context, state) => const HomeScreen(),
       ),
       GoRoute(
@@ -35,7 +39,7 @@ final routes = GoRouter(
         name: AddLitteredSpotItems.pageConfig.pageName,
         builder: (context, state) => const AddLitteredSpotItems(),
       ),
-      ShellRoute(
+/*      ShellRoute(
           navigatorKey: _sheelKey,
           builder: (context, state, child) => child,
           routes: [
@@ -47,5 +51,5 @@ final routes = GoRouter(
                 tab: state.pathParameters['tab'] ?? "dashboard",
               ),
             ),
-          ])
+          ])*/
     ]);
