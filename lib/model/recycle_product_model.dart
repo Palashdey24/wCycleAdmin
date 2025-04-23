@@ -1,3 +1,5 @@
+import 'package:wcycle_admin_panel/model/store_model.dart';
+
 class RecycleProductModel {
   RecycleProductModel(
       {required this.impactLevel,
@@ -5,7 +7,8 @@ class RecycleProductModel {
       required this.productOnline,
       required this.shopID,
       required this.productPrice,
-      required this.productName});
+      required this.productName,
+      this.storeData});
 
   late final String impactLevel;
   late final String productImage;
@@ -13,14 +16,18 @@ class RecycleProductModel {
   late final String shopID;
   late final double productPrice;
   late final String productName;
+  StoreModel? storeData;
 
-  RecycleProductModel.fromJson(Map<String, dynamic> json) {
+  RecycleProductModel.fromJson(dynamic json) {
     impactLevel = json['impactLevel'] ?? "N/A";
     productImage = json['productImage'] ?? "N/A";
     productOnline = json['productOnline'] ?? "N/A";
     shopID = json['shopID'] ?? "N/A";
     productPrice = json['productPrice'] ?? "N/A";
     productName = json['productName'] ?? "N/A";
+    storeData = json['storeData'] != null
+        ? StoreModel.fromJson(json['storeData'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -31,6 +38,9 @@ class RecycleProductModel {
     data['shopID'] = shopID;
     data['productPrice'] = productPrice;
     data['productName'] = productName;
+    if (storeData != null) {
+      data['storeData'] = storeData?.toJson();
+    }
     return data;
   }
 }

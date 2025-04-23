@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wcycle_admin_panel/config/theme/app_font.dart';
 import 'package:wcycle_admin_panel/data/division_data.dart';
 
 class DivisionDropdown extends StatefulWidget {
@@ -40,7 +41,7 @@ class _DivisionDropdownState extends State<DivisionDropdown> {
         decoration: InputDecoration(
             label: Text(
               widget.dropLevel,
-              style: const TextStyle(color: Colors.white),
+              style: AppFont.textSmall(context),
             ),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(30))),

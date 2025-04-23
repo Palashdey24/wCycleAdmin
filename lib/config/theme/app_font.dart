@@ -8,7 +8,7 @@ class AppFont {
     double width = apis.deviceWidth(context);
     final textTheme = Theme.of(context).textTheme;
 
-    final double fontSize = width <= 400 ? 22 : (width >= 1000 ? 50 : 30);
+    final double fontSize = width <= 400 ? 22 : 30;
 
     return textTheme.displayLarge!.copyWith(
         fontWeight: FontWeight.bold,
@@ -20,7 +20,7 @@ class AppFont {
     double width = apis.deviceWidth(context);
     final textTheme = Theme.of(context).textTheme;
 
-    final double fontSize = width <= 400 ? 12 : (width >= 1000 ? 20 : 16);
+    final double fontSize = width <= 400 ? 12 : 16;
 
     return textTheme.headlineMedium!.copyWith(
         fontWeight: FontWeight.bold,
@@ -32,7 +32,7 @@ class AppFont {
     double width = apis.deviceWidth(context);
     final textTheme = Theme.of(context).textTheme;
 
-    final double fontSize = width <= 400 ? 10 : (width >= 1000 ? 16 : 12);
+    final double fontSize = width <= 400 ? 10 : 12;
 
     return textTheme.bodySmall!.copyWith(
         fontWeight: FontWeight.bold,
@@ -43,7 +43,7 @@ class AppFont {
   static TextStyle tittleStyleSecond(BuildContext context) {
     double width = apis.deviceWidth(context);
 
-    final double fontSize = width <= 400 ? 20 : (width >= 1000 ? 25 : 35);
+    final double fontSize = width <= 400 ? 20 : 25;
 
     return GoogleFonts.rubikVinyl(
         color: AppColor.kSixthColor,

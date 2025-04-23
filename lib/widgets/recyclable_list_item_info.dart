@@ -44,15 +44,18 @@ class RecyclableListItemInfo extends StatelessWidget {
           children: [
             Text(
               "1",
+              textAlign: TextAlign.center,
               style: AppFont.textSmall(context),
             ),
             for (final rcItem in rcListItem)
               Text(
                 rcItem,
+                textAlign: TextAlign.center,
                 style: AppFont.textSmall(context),
               ),
             Text(
-              "DemoShop",
+              rcListModel.storeData?.storeName ?? "DemoShop",
+              textAlign: TextAlign.center,
               style: AppFont.textSmall(context),
             ),
           ],

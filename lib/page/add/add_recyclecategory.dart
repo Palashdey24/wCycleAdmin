@@ -12,7 +12,6 @@ import 'package:wcycle_admin_panel/widgets/form_text_texts.dart';
 import 'package:wcycle_admin_panel/widgets/upload_image.dart';
 
 final api = Apis();
-final dialogHelper = DialogsHelper();
 final firebaseHelper = FirebaseHelper();
 
 class AddRecycableCategory extends StatelessWidget {
@@ -30,7 +29,7 @@ class AddRecycableCategory extends StatelessWidget {
   Widget build(BuildContext context) {
     late String recycleName;
     //late int? recyclePrice;
-    String userID = firebaseHelper.firebaseAuth.currentUser?.uid ?? "null";
+    String userID = FirebaseHelper.firebaseAuth.currentUser?.uid ?? "null";
 
     final formKey = GlobalKey<FormState>();
     String? impactLevel;
@@ -40,8 +39,7 @@ class AddRecycableCategory extends StatelessWidget {
       if (formKey.currentState!.validate()) {
         //Check upload image and level are null or added
         if (impactLevel == null || recycleImage == null) {
-          dialogHelper.removeMessage(context);
-          dialogHelper.showMessage(
+          DialogsHelper.showMessage(
               context, "Please upload Image and Select Impact Level");
           return;
         } else {

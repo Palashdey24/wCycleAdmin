@@ -27,7 +27,7 @@ class RecyclableProductUi extends StatelessWidget {
                     clipBehavior: Clip.hardEdge,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(colors: [
-                        Colors.yellowAccent.withOpacity(0.4),
+                        Colors.yellowAccent.withValues(alpha: .4),
                         Colors.blueGrey,
                       ], begin: Alignment.topRight, end: Alignment.bottomLeft),
                       borderRadius: const BorderRadius.only(

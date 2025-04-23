@@ -35,7 +35,6 @@ class SidebarItem extends ConsumerWidget {
     final actPosFn = ref.read(actPagePosProviders.notifier);
     bool isActive = ltPost == actPositions;
 
-    final deviceHeight = DeviceSize.getDeviceHeight(context);
     final deviceWidth = DeviceSize.getDeviceWidth(context);
 
     return InkWell(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wcycle_admin_panel/config/theme/app_color.dart';
 import 'package:wcycle_admin_panel/core/dimensions/app_gap.dart';
-import 'package:wcycle_admin_panel/core/dimensions/device_size.dart';
 
 class SearchBoxCore extends StatelessWidget {
   const SearchBoxCore({super.key, this.filterIncluder});
@@ -9,7 +8,6 @@ class SearchBoxCore extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final phoneWidth = DeviceSize.getDeviceWidth(context);
     return Padding(
       padding: const EdgeInsets.only(top: 8, bottom: 8),
       child: Flex(

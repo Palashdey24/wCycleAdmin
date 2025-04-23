@@ -17,7 +17,11 @@ class DashboardPage extends StatelessWidget {
           children: [
             DashboardKpi(),
             Gap(normalGap),
-            DashboardKpi(),
+            DashboardKpi(
+              kpiChange: "+55%",
+              kpiTitle: "Total Store",
+              kpiValue: "10",
+            ),
             Gap(normalGap),
             DashboardKpi(),
             Gap(normalGap),

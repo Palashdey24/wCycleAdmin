@@ -13,7 +13,7 @@ class TimeDateCollector extends StatefulWidget {
       required this.onSelDate,
       required this.onSelTime,
       this.timeTricker});
-  final void Function(String Date) onSelDate;
+  final void Function(String date) onSelDate;
   final void Function(String time) onSelTime;
   final bool? timeTricker;
 

@@ -23,60 +23,63 @@ class WasteMaterialChip extends StatefulWidget {
 
 class _WasteMaterialChipState extends State<WasteMaterialChip> {
   List<String> selectWasteMaterial = [];
+
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: api.fireStore.collection(widget.fsCollection).snapshots(),
+    return FutureBuilder(
+      future: api.fireStore.collection(widget.fsCollection).get(),
       builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return Center(
-            child: Text("Some error Occured ${snapshot.hasError}"),
-          );
-        }
         List<String> wasteMaterials = [];
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+          case ConnectionState.waiting:
+            return const Center(
+              child: SizedBox(width: 30, height: 30, child: LoadingWidgets()),
+            );
 
-        if (!snapshot.hasData) {
-          return const Center(
-            child: SizedBox(width: 30, height: 30, child: LoadingWidgets()),
-          );
-        } else {
-          final wasteMatSnapshot = snapshot.data?.docs.toList();
+          case ConnectionState.active:
+          case ConnectionState.done:
+            if (!snapshot.hasData) {
+              return Center(
+                child: Text("Some error Occurred ${snapshot.hasError}"),
+              );
+            } else {
+              final wasteMatSnapshot = snapshot.data?.docs.toList();
 
-          if (wasteMatSnapshot != null) {
-            for (var wasteMat in wasteMatSnapshot) {
-              wasteMaterials.add(wasteMat[widget.fsField]);
+              for (var wasteMat in wasteMatSnapshot!) {
+                wasteMaterials.add(wasteMat[widget.fsField]);
+              }
             }
-          }
 
-          return Wrap(
-            runSpacing: normalGap,
-            spacing: csGap,
-            children: [
-              for (var wasmat in wasteMaterials)
-                ChoiceChip(
-                  backgroundColor: Colors.grey,
-                  selectedColor: Colors.lime,
-                  label: Text(
-                    wasmat.toUpperCase(),
-                    style: fontHelper
-                        .bodyMedium(context)
-                        .copyWith(color: Colors.white),
+            return Wrap(
+              runSpacing: normalGap,
+              spacing: csGap,
+              children: [
+                for (var wasmat in wasteMaterials)
+                  ChoiceChip(
+                    backgroundColor: Colors.grey,
+                    selectedColor: Colors.lime,
+                    label: Text(
+                      wasmat.toUpperCase(),
+                      style: fontHelper
+                          .bodyMedium(context)
+                          .copyWith(color: Colors.white),
+                    ),
+                    onSelected: (value) {
+                      setState(() {
+                        if (selectWasteMaterial.contains(wasmat)) {
+                          selectWasteMaterial.remove(wasmat);
+                        } else {
+                          selectWasteMaterial.add(wasmat);
+                        }
+                      });
+                      widget.wasteMatFn(selectWasteMaterial);
+                      return;
+                    },
+                    selected: selectWasteMaterial.contains(wasmat),
                   ),
-                  onSelected: (value) {
-                    setState(() {
-                      if (selectWasteMaterial.contains(wasmat)) {
-                        selectWasteMaterial.remove(wasmat);
-                      } else {
-                        selectWasteMaterial.add(wasmat);
-                      }
-                    });
-                    widget.wasteMatFn(selectWasteMaterial);
-                    return;
-                  },
-                  selected: selectWasteMaterial.contains(wasmat),
-                ),
-            ],
-          );
+              ],
+            );
         }
       },
     );

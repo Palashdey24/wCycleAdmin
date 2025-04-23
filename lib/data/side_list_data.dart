@@ -4,7 +4,7 @@ import 'package:wcycle_admin_panel/model/side_item_model.dart';
 
 final List<SideItemModel> sideListData = [
   SideItemModel(
-      faIcon: FontAwesomeIcons.dashboard,
+      faIcon: FontAwesomeIcons.gauge,
       ltTitle: "Dashboard",
       color: Colors.cyan,
       isActive: true,
@@ -33,4 +33,10 @@ final List<SideItemModel> sideListData = [
       color: Colors.lime,
       isActive: false,
       ltPositon: 4),
+  SideItemModel(
+      faIcon: FontAwesomeIcons.store,
+      ltTitle: "Store",
+      color: Colors.lightGreen,
+      isActive: false,
+      ltPositon: 5),
 ];

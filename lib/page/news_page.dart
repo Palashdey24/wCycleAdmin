@@ -7,32 +7,22 @@ import 'package:wcycle_admin_panel/config/theme/app_font.dart';
 import 'package:wcycle_admin_panel/core/dimensions/app_gap.dart';
 import 'package:wcycle_admin_panel/core/dimensions/device_size.dart';
 import 'package:wcycle_admin_panel/core/page_config.dart';
-import 'package:wcycle_admin_panel/model/littered_model.dart';
+import 'package:wcycle_admin_panel/model/news_model.dart';
 import 'package:wcycle_admin_panel/shimmer/lt_shimmer.dart';
 import 'package:wcycle_admin_panel/utlits/style.dart';
-import 'package:wcycle_admin_panel/widgets/littered_list_item.dart';
-import 'package:wcycle_admin_panel/widgets/search_box/search_box_core.dart';
+import 'package:wcycle_admin_panel/widgets/carousel_card.dart';
 
 final apis = Apis();
 
-List<String> rcTittle = [
-  "ID",
-  "Product Name",
-  "Impact Level",
-  "Price",
-  "Online",
-  "ShopName",
-];
-
-class LitteredSpotPage extends StatelessWidget {
-  const LitteredSpotPage({super.key});
+class NewsPage extends StatelessWidget {
+  const NewsPage({super.key});
 
   static const pageConfig =
-      PageConfig(pageName: "littered_page", child: LitteredSpotPage());
+      PageConfig(pageName: "news_page", child: NewsPage());
 
   @override
   Widget build(BuildContext context) {
-    List<LitteredModel> litteredDataList = [];
+    List<NewsModel>? newsDataList = [];
     final deviceWidth = DeviceSize.getDeviceWidth(context);
     return Card(
       color: AppColor.kSixthColor.withValues(alpha: 0.5),
@@ -49,7 +39,7 @@ class LitteredSpotPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Littered List",
+                  "News",
                   style: AppFont.textMedium(context)
                       .copyWith(color: AppColor.kSecondColor),
                 ),
@@ -58,10 +48,6 @@ class LitteredSpotPage extends StatelessWidget {
                   spacing: AppGap.kNormalGap,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    SizedBox(
-                        width: deviceWidth * 0.15,
-                        height: 80,
-                        child: const SearchBoxCore()),
                     IconButton(
                         onPressed: () {},
                         icon: const Icon(
@@ -82,9 +68,7 @@ class LitteredSpotPage extends StatelessWidget {
             SizedBox(
               height: apis.deviceHeight(context) - 400,
               child: FutureBuilder(
-                  future: FirebaseFirestore.instance
-                      .collection("litteredSpot")
-                      .get(),
+                  future: FirebaseFirestore.instance.collection("News").get(),
                   builder: (context, snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
@@ -95,25 +79,30 @@ class LitteredSpotPage extends StatelessWidget {
                         );
                       case ConnectionState.active:
                       case ConnectionState.done:
-                        final litteredData = snapshot.data!.docs;
+                        final newsData = snapshot.data!.docs;
                         //Add data to model list one after one
-                        litteredDataList = litteredData.map((e) {
+/*                        litteredDataList = litteredData.map((e) {
                           return LitteredModel.fromJson(e.data());
-                        }).toList();
+                        }).toList();*/
+                        newsDataList = newsData.map(
+                          (e) {
+                            return NewsModel.fromJson(e.data());
+                          },
+                        ).toList();
                     }
                     return GridView.builder(
-                      itemCount: litteredDataList.length,
+                      itemCount: newsDataList!.length,
                       itemBuilder: (context, index) {
-                        return LitteredListItem(
-                          ltListModel: litteredDataList[index],
+                        return CarouselCard(
+                          newsModel: newsDataList![index],
                         );
                       },
                       gridDelegate:
                           const SliverGridDelegateWithMaxCrossAxisExtent(
                               maxCrossAxisExtent: 400,
-                              childAspectRatio: 1,
+                              childAspectRatio: 1.25,
                               mainAxisSpacing: AppGap.kLargeGap,
-                              crossAxisSpacing: AppGap.kMediumGap),
+                              crossAxisSpacing: AppGap.kLargeGap),
                     );
                   }),
             )

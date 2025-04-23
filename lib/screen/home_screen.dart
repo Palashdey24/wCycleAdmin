@@ -8,10 +8,13 @@ import 'package:wcycle_admin_panel/core/page_config.dart';
 import 'package:wcycle_admin_panel/helper/font_helper.dart';
 import 'package:wcycle_admin_panel/page/add/add_events_items.dart';
 import 'package:wcycle_admin_panel/page/add/add_littered_spot_items.dart';
+import 'package:wcycle_admin_panel/page/add/add_news.dart';
 import 'package:wcycle_admin_panel/page/add/add_recyclecategory.dart';
 import 'package:wcycle_admin_panel/page/dashboard_page.dart';
 import 'package:wcycle_admin_panel/page/littered_spot_page.dart';
+import 'package:wcycle_admin_panel/page/news_page.dart';
 import 'package:wcycle_admin_panel/page/recycle_page.dart';
+import 'package:wcycle_admin_panel/page/store_page.dart';
 import 'package:wcycle_admin_panel/providers/positions_switcher/active_positions_providers.dart';
 import 'package:wcycle_admin_panel/utlits/style.dart';
 import 'package:wcycle_admin_panel/widgets/center_sider.dart';
@@ -30,6 +33,7 @@ final addSections = [
   const AddRecycableCategory(),
   const AddLitteredSpotItems(),
   const AddEventsItems(),
+  const AddNews()
 ];
 
 class HomeScreen extends ConsumerWidget {
@@ -44,9 +48,10 @@ class HomeScreen extends ConsumerWidget {
   static final pages = [
     DashboardPage.pageConfig,
     RecyclePage.pageConfig,
-    EventsPage.pageConfig,
+    LitteredSpotPage.pageConfig,
     RecyclePage.pageConfig,
-    EventsPage.pageConfig,
+    NewsPage.pageConfig,
+    StorePage.pageConfig,
   ];
 
   @override
@@ -60,7 +65,7 @@ class HomeScreen extends ConsumerWidget {
           ? InkWell(
               onTap: () => onAddBtn(actPositions, context),
               child: AnimatedOpacity(
-                opacity: actPositions != 0 ? 1.0 : 0.0,
+                opacity: (actPositions != 0 && actPositions != 5) ? 1.0 : 0.0,
                 duration: const Duration(seconds: 1),
                 child: const CircleAvatar(
                   maxRadius: 30,
@@ -96,14 +101,20 @@ class HomeScreen extends ConsumerWidget {
                   direction: Axis.horizontal,
                   children: [
                     const LeftSider(),
-                    SizedBox(
-                        height: deviceHeight,
-                        width: (actPositions > 0 && deviceWidth > 1200)
-                            ? deviceWidth * 0.5
-                            : deviceWidth * 0.8,
-                        child:
-                            CenterSider(slidePage: pages[actPositions].child)),
-                    if (actPositions > 0 && deviceWidth >= 1200)
+                    SingleChildScrollView(
+                      child: SizedBox(
+                          height: deviceHeight,
+                          width: (actPositions > 0 &&
+                                  actPositions != 5 &&
+                                  deviceWidth > 1300)
+                              ? deviceWidth * 0.5
+                              : deviceWidth * 0.8,
+                          child: CenterSider(
+                              slidePage: pages[actPositions].child)),
+                    ),
+                    if (actPositions > 0 &&
+                        actPositions != 5 &&
+                        deviceWidth >= 1300)
                       Expanded(
                         child: Card(
                           clipBehavior: Clip.hardEdge,

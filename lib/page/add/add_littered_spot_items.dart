@@ -42,7 +42,7 @@ class AddLitteredSpotItems extends StatelessWidget {
     String? impactLevel;
     String? ltImage;
     List<String> wasteMaterial = [];
-    String userID = firebaseHelper.firebaseAuth.currentUser?.uid ?? "null";
+    String userID = FirebaseHelper.firebaseAuth.currentUser?.uid ?? "null";
 
     String? vaildetForms(String? value, String? formName, String errorMsg) {
       if (value == null ||
@@ -76,6 +76,7 @@ class AddLitteredSpotItems extends StatelessWidget {
         default:
           break;
       }
+      return null;
     }
 
     String? vaildWard(String? value) {
@@ -93,8 +94,7 @@ class AddLitteredSpotItems extends StatelessWidget {
       if (formKey.currentState!.validate()) {
         //Check upload image and level are null or added
         if (impactLevel == null || ltImage == null || wasteMaterial.isEmpty) {
-          dialogHelper.removeMessage(context);
-          dialogHelper.showMessage(context,
+          DialogsHelper.showMessage(context,
               "Please upload Image and Select Impact Level and Select at last one Waste Materials");
           return;
         } else {
@@ -116,8 +116,8 @@ class AddLitteredSpotItems extends StatelessWidget {
 
           //Check the data successfully Up or Not
           formKey.currentState!.reset();
-          dialogHelper.removeMessage(context);
-          dialogHelper.showMessage(context, "Data Added Successfully");
+
+          DialogsHelper.showMessage(context, "Data Added Successfully");
         }
       }
     }
@@ -166,6 +166,7 @@ class AddLitteredSpotItems extends StatelessWidget {
                     ),
                     const Gap(csGap + 20),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
                           child: DivisionDropdown(
@@ -173,15 +174,14 @@ class AddLitteredSpotItems extends StatelessWidget {
                               formFieldValidator: (value) =>
                                   vaildetForms(value, "Division", "Division"),
                               dropLevel: "Division",
-                              dropHint: "select one Division"),
+                              dropHint: "select Division"),
                         ),
-                        const Gap(csGap),
                         Expanded(
                           child: FirebaseDropdownHelper(
                             onDropdownFn: (value) {
                               impactLevel = value;
                             },
-                            dropHint: "Select Impact Level",
+                            dropHint: "Impact Level",
                             dropLevel: "Impact Level",
                             fsCollection: "imapctLevel",
                             fsField: "level",

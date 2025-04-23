@@ -31,14 +31,13 @@ class AddEventsItems extends StatelessWidget {
 
     final formKey = GlobalKey<FormState>();
     String? ltImage;
-    String userID = firebaseHelper.firebaseAuth.currentUser?.uid ?? "null";
+    String userID = FirebaseHelper.firebaseAuth.currentUser?.uid ?? "null";
 
     void onSave() {
       if (formKey.currentState!.validate()) {
         //Check upload image and level are null or added
         if (ltImage == null || eventDate == null || eventTime == null) {
-          dialogHelper.removeMessage(context);
-          dialogHelper.showMessage(context,
+          DialogsHelper.showMessage(context,
               "Please check you may not upload Image/ Select Time / Date");
           return;
         } else {
@@ -56,8 +55,8 @@ class AddEventsItems extends StatelessWidget {
 
           //Check the data successfully Up or Not
           formKey.currentState!.reset();
-          dialogHelper.removeMessage(context);
-          dialogHelper.showMessage(context, "Data Added Successfully");
+
+          DialogsHelper.showMessage(context, "Data Added Successfully");
         }
       }
     }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wcycle_admin_panel/api/apis.dart';
+import 'package:wcycle_admin_panel/config/theme/app_font.dart';
 import 'package:wcycle_admin_panel/widgets/loading_widget.dart';
 
 final api = Apis();
@@ -70,7 +71,7 @@ class _FirebaseDropdownHelperState extends State<FirebaseDropdownHelper> {
               decoration: InputDecoration(
                   label: Text(
                     widget.dropLevel,
-                    style: const TextStyle(color: Colors.white),
+                    style: AppFont.textSmall(context),
                   ),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30))),

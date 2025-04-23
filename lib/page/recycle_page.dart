@@ -8,6 +8,7 @@ import 'package:wcycle_admin_panel/core/dimensions/app_gap.dart';
 import 'package:wcycle_admin_panel/core/dimensions/device_size.dart';
 import 'package:wcycle_admin_panel/core/page_config.dart';
 import 'package:wcycle_admin_panel/model/recycle_product_model.dart';
+import 'package:wcycle_admin_panel/model/store_model.dart';
 import 'package:wcycle_admin_panel/shimmer/recycle_shimmer.dart';
 import 'package:wcycle_admin_panel/utlits/style.dart';
 import 'package:wcycle_admin_panel/widgets/recyclable_list_item_info.dart';
@@ -108,11 +109,24 @@ class RecyclePage extends StatelessWidget {
                       case ConnectionState.done:
                         final recycleData = snapshot.data!.docs;
                         //Add data to model list one after one
-                        recycleDataList = recycleData
-                            .map(
-                              (e) => RecycleProductModel.fromJson(e.data()),
-                            )
-                            .toList();
+                        recycleDataList = recycleData.map((e) {
+                          return RecycleProductModel.fromJson(e.data());
+                        }).toList();
+
+                        for (var e in recycleDataList) {
+                          FirebaseFirestore.instance
+                              .collection("store")
+                              .doc(e.shopID)
+                              .get()
+                              .then(
+                            (value) {
+                              recycleDataList[recycleDataList.indexOf(e)]
+                                      .storeData =
+                                  StoreModel.fromJson(value.data());
+                              return;
+                            },
+                          );
+                        }
                     }
                     return ListView.builder(
                       itemCount: recycleDataList.length,

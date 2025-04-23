@@ -20,8 +20,7 @@ class _WasteMaterialCategoryState extends State<WasteMaterialCategory> {
     return FirebaseDropdownHelper(
       onDropdownFn: (value) {
         if (wasteMaterial.contains(value)) {
-          dialoghelper.removeMessage(context);
-          dialoghelper.showMessage(context,
+          DialogsHelper.showMessage(context,
               "The material already Selected. Please choose different one");
           return;
         }

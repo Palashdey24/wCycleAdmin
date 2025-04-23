@@ -9,7 +9,11 @@ final fonthelpers = FontHelper();
 final api = Apis();
 
 class DashboardKpi extends StatelessWidget {
-  const DashboardKpi({super.key});
+  const DashboardKpi({super.key, this.kpiTitle, this.kpiValue, this.kpiChange});
+
+  final String? kpiTitle;
+  final String? kpiValue;
+  final String? kpiChange;
 
   @override
   Widget build(BuildContext context) {
@@ -33,23 +37,24 @@ class DashboardKpi extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Today Money",
+                    Text(kpiTitle ?? "Today Money",
                         style: fonthelpers
                             .bodyLarge(context)
                             .copyWith(color: Colors.white)),
                     const Gap(normalGap + 5),
                     Text(
-                      "\$43,999",
+                      kpiValue == null ? "\$43,999" : "$kpiValue",
                       style: fonthelpers
                           .bodyLarge(context)
                           .copyWith(color: Colors.orange),
                     ),
                     const Gap(normalGap + 10),
                     RichText(
-                      text: const TextSpan(
-                        style: TextStyle(fontSize: 18, color: Colors.green),
-                        text: "+55%",
-                        children: [
+                      text: TextSpan(
+                        style:
+                            const TextStyle(fontSize: 18, color: Colors.green),
+                        text: kpiChange ?? "+55%",
+                        children: const [
                           TextSpan(text: "Since Yesterday "),
                         ],
                       ),

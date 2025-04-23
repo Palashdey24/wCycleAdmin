@@ -12,9 +12,25 @@ final dialog = DialogsHelper();
 class SignHelper {
   void signIn(BuildContext context, String emailAddress, String logPass) async {
     try {
-      await apis.firebaseAuth
-          .signInWithEmailAndPassword(email: emailAddress, password: logPass)
-          .then(
+      final cred = await apis.firebaseAuth
+          .signInWithEmailAndPassword(email: emailAddress, password: logPass);
+
+      if (cred.user != null) {
+        final isAdmin =
+            await apis.fireStore.collection("admin").doc(cred.user!.uid).get();
+        if (!context.mounted) return;
+        if (isAdmin.exists) {
+          Navigator.pop(context);
+          DialogsHelper.showMessage(context, "You are admin");
+          context.pushReplacementNamed(HomeScreen.pageConfig.pageName);
+        } else {
+          apis.firebaseAuth.signOut();
+          Navigator.pop(context);
+          DialogsHelper.showMessage(
+              context, "You are not Admin! Step back please");
+        }
+      }
+/*          .then(
         (value) async {
           final isAdmin = await apis.fireStore
               .collection("admin")
@@ -27,14 +43,14 @@ class SignHelper {
             if (isAdmin['email'] == emailAddress) {
               context.replaceNamed(HomeScreen.pageConfig.pageName);
               Navigator.pop(context);
-              dialog.showMessage(context, "You are Admin! Step back please");
+              dialog.showMessage(context, "You are Admin!");
 
-/*              Navigator.pushAndRemoveUntil(
+*/ /*               Navigator.pushAndRemoveUntil(
                   context,
 
                   MaterialPageRoute(
                     builder: (context) => const HomeScreen(),
-                  ));*/
+                  )); */ /*
             } else {
               apis.firebaseAuth.signOut();
               Navigator.pop(context);
@@ -43,12 +59,11 @@ class SignHelper {
             }
           }
         },
-      );
+      );*/
     } on FirebaseAuthException catch (e) {
       if (!context.mounted) return;
 
-      dialog.removeMessage(context);
-      dialog.showMessage(context, "Issue: ${e.message}");
+      DialogsHelper.showMessage(context, "Issue: ${e.message}");
       Navigator.pop(context);
     }
   }

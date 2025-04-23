@@ -6,12 +6,15 @@ import 'package:wcycle_admin_panel/api/apis.dart';
 import 'package:wcycle_admin_panel/config/theme/app_theme.dart';
 import 'package:wcycle_admin_panel/core/routes.dart';
 import 'package:wcycle_admin_panel/utlits/string.dart';
+import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
+import 'package:webview_flutter_web/webview_flutter_web.dart';
 
 import 'firebase_options.dart';
 
 final api = Apis();
 
 void main() async {
+  WebViewPlatform.instance = WebWebViewPlatform();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
