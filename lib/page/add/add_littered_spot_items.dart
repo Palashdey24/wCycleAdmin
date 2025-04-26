@@ -21,14 +21,23 @@ final firebaseHelper = FirebaseHelper();
 
 class AddLitteredSpotItems extends StatelessWidget {
   const AddLitteredSpotItems({super.key, this.isPage});
-
   final bool? isPage;
-
   static const pageConfig = PageConfig(
       pageName: "addLitteredSpot",
       child: AddLitteredSpotItems(
         isPage: true,
       ));
+
+  String? vaildWard(String? value) {
+    if (value == null ||
+        value.trim().isEmpty ||
+        int.tryParse(value) == null ||
+        int.tryParse(value)! < 1) {
+      return "Please add A ward Number only like 3 and more than 0";
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     late String ltTittle;
@@ -79,17 +88,6 @@ class AddLitteredSpotItems extends StatelessWidget {
       return null;
     }
 
-    String? vaildWard(String? value) {
-      if (value == null ||
-          value.trim().isEmpty ||
-          int.tryParse(value) == null ||
-          int.tryParse(value)! < 1) {
-        return "Please add A ward Number only like 3 and more than 0";
-      }
-      ltWard = value;
-      return null;
-    }
-
     void onSave() {
       if (formKey.currentState!.validate()) {
         //Check upload image and level are null or added
@@ -99,9 +97,9 @@ class AddLitteredSpotItems extends StatelessWidget {
           return;
         } else {
           //Sent Littered data by Map to FirebaseHelper class where the function upload the data
-          firebaseHelper.upFirestoreData({
+          FirebaseHelper.upFirestoreData({
             "userId": userID,
-            "createAdd": Timestamp.now().toString(),
+            "createAdd": Timestamp.now(),
             "litteredTittle": ltTittle,
             "litteredAddress": ltAddress,
             "litteredVillMet": ltVillMet,
@@ -125,146 +123,154 @@ class AddLitteredSpotItems extends StatelessWidget {
     return Center(
       child: FractionallySizedBox(
         widthFactor: 0.9,
-        child: Card(
-          elevation: 10,
-          shape: const RoundedRectangleBorder(
-              side: BorderSide(color: Colors.orange, width: 3),
-              borderRadius: BorderRadius.all(Radius.circular(45))),
-          color: Colors.blueGrey,
-          child: Form(
-              key: formKey,
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Gap(largeGap),
-                    UploadImage(
-                      storageRef: "LitteredSpot",
-                      downloadUriFn: (uri) => ltImage = uri,
-                    ),
-                    const Gap(csGap),
-                    FormTextTexts(
-                      iconData: FontAwesomeIcons.recycle,
-                      fieldlabel: "littered Tittle",
-                      fieldHint:
-                          "Please add Littered Spot like waste on Pond etc",
-                      fieldType: TextInputType.text,
-                      vaildator: (value) =>
-                          vaildetForms(value, "Tittle", "Tittle"),
-                    ),
-                    const Gap(csGap + 20),
-                    FormTextTexts(
-                      iconData: FontAwesomeIcons.recycle,
-                      fieldlabel: "Address",
-                      fieldHint: "Please add Littered Spot Address",
-                      fieldType: TextInputType.text,
-                      maxLen: 72,
-                      vaildator: (value) =>
-                          vaildetForms(value, "Address", "Address"),
-                    ),
-                    const Gap(csGap + 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: DivisionDropdown(
-                              onDropdownFn: (value) {},
-                              formFieldValidator: (value) =>
-                                  vaildetForms(value, "Division", "Division"),
-                              dropLevel: "Division",
-                              dropHint: "select Division"),
-                        ),
-                        Expanded(
-                          child: FirebaseDropdownHelper(
-                            onDropdownFn: (value) {
-                              impactLevel = value;
-                            },
-                            dropHint: "Impact Level",
-                            dropLevel: "Impact Level",
-                            fsCollection: "imapctLevel",
-                            fsField: "level",
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Gap(largeGap),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: FormTextTexts(
-                            iconData: FontAwesomeIcons.recycle,
-                            fieldlabel: "Village/Metro",
-                            fieldHint: "Please add Village or Metro name",
-                            fieldType: TextInputType.text,
-                            maxLen: 18,
-                            vaildator: (value) =>
-                                vaildetForms(value, "Village", "Village"),
-                          ),
-                        ),
-                        const Gap(csGap),
-                        Expanded(
-                          child: FormTextTexts(
-                              iconData: FontAwesomeIcons.recycle,
-                              fieldlabel: "Thana",
-                              fieldHint: "Please add Thana",
-                              fieldType: TextInputType.text,
-                              maxLen: 18,
-                              vaildator: (value) =>
-                                  vaildetForms(value, "Thana", "Thana")),
-                        ),
-                      ],
-                    ),
-                    const Gap(csGap),
-                    FormTextTexts(
-                        iconData: FontAwesomeIcons.recycle,
-                        fieldlabel: "Ward",
-                        fieldHint: "Please add a Ward",
-                        fieldType: TextInputType.number,
-                        vaildator: (value) => vaildWard(value)),
-                    const Gap(csGap),
-                    Row(
-                      children: [
-                        const Expanded(
-                          child: ListTile(
-                            title: Text("Select Material:"),
-                            leading: FaIcon(
-                              FontAwesomeIcons.circleCheck,
-                              size: 15,
-                              color: Colors.lime,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                            child: WasteMaterialChip(
-                          wasteMatFn: (waste) {
-                            wasteMaterial = waste;
-                            log(wasteMaterial.toList().toString());
-                          },
-                          fsCollection: "wasteMaterial",
-                          fsField: "category",
-                        )),
-                      ],
-                    ),
-                    const Gap(largeGap),
-                    Row(
+        child: ListView(
+          padding: const EdgeInsets.only(top: 50),
+          children: [
+            Card(
+              elevation: 10,
+              shape: const RoundedRectangleBorder(
+                  side: BorderSide(color: Colors.orange, width: 3),
+                  borderRadius: BorderRadius.all(Radius.circular(45))),
+              color: Colors.blueGrey,
+              child: Form(
+                  key: formKey,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        ElevatedButton.icon(
-                            onPressed: () => formKey.currentState!.reset(),
-                            icon: const Icon(Icons.refresh),
-                            label: const Text("Reset")),
-                        const Spacer(),
-                        ElevatedButton.icon(
-                            onPressed: onSave,
-                            icon: const Icon(Icons.data_saver_on_rounded),
-                            label: const Text("Save")),
+                        const Gap(largeGap),
+                        UploadImage(
+                          storageRef: "LitteredSpot",
+                          downloadUriFn: (uri) => ltImage = uri,
+                        ),
+                        const Gap(csGap),
+                        FormTextTexts(
+                          iconData: FontAwesomeIcons.recycle,
+                          fieldlabel: "littered Tittle",
+                          fieldHint:
+                              "Please add Littered Spot like waste on Pond etc",
+                          fieldType: TextInputType.text,
+                          vaildator: (value) =>
+                              vaildetForms(value, "Tittle", "Tittle"),
+                        ),
+                        const Gap(csGap + 20),
+                        FormTextTexts(
+                          iconData: FontAwesomeIcons.recycle,
+                          fieldlabel: "Address",
+                          fieldHint: "Please add Littered Spot Address",
+                          fieldType: TextInputType.text,
+                          maxLen: 72,
+                          vaildator: (value) =>
+                              vaildetForms(value, "Address", "Address"),
+                        ),
+                        const Gap(csGap + 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: DivisionDropdown(
+                                  onDropdownFn: (value) {
+                                    ltDivision = value;
+                                  },
+                                  formFieldValidator: (value) => vaildetForms(
+                                      value, "Division", "Division"),
+                                  dropLevel: "Division",
+                                  dropHint: "select Division"),
+                            ),
+                            Expanded(
+                              child: FirebaseDropdownHelper(
+                                onDropdownFn: (value) {
+                                  impactLevel = value;
+                                },
+                                dropHint: "Impact Level",
+                                dropLevel: "Impact Level",
+                                fsCollection: "imapctLevel",
+                                fsField: "level",
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Gap(largeGap),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: FormTextTexts(
+                                iconData: FontAwesomeIcons.recycle,
+                                fieldlabel: "Village/Metro",
+                                fieldHint: "Please add Village or Metro name",
+                                fieldType: TextInputType.text,
+                                maxLen: 18,
+                                vaildator: (value) =>
+                                    vaildetForms(value, "Village", "Village"),
+                              ),
+                            ),
+                            const Gap(csGap),
+                            Expanded(
+                              child: FormTextTexts(
+                                  iconData: FontAwesomeIcons.recycle,
+                                  fieldlabel: "Thana",
+                                  fieldHint: "Please add Thana",
+                                  fieldType: TextInputType.text,
+                                  maxLen: 18,
+                                  vaildator: (value) =>
+                                      vaildetForms(value, "Thana", "Thana")),
+                            ),
+                          ],
+                        ),
+                        const Gap(csGap),
+                        FormTextTexts(
+                            iconData: FontAwesomeIcons.recycle,
+                            fieldlabel: "Ward",
+                            fieldHint: "Please add a Ward",
+                            fieldType: TextInputType.number,
+                            onSave: (value) => ltWard = value,
+                            vaildator: (value) => vaildWard(value)),
+                        const Gap(csGap),
+                        Row(
+                          children: [
+                            const Expanded(
+                              child: ListTile(
+                                title: Text("Select Material:"),
+                                leading: FaIcon(
+                                  FontAwesomeIcons.circleCheck,
+                                  size: 15,
+                                  color: Colors.lime,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                                child: WasteMaterialChip(
+                              wasteMatFn: (waste) {
+                                wasteMaterial = waste;
+                                log(wasteMaterial.toList().toString());
+                              },
+                              fsCollection: "wasteMaterial",
+                              fsField: "category",
+                            )),
+                          ],
+                        ),
+                        const Gap(largeGap),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton.icon(
+                                onPressed: () => formKey.currentState!.reset(),
+                                icon: const Icon(Icons.refresh),
+                                label: const Text("Reset")),
+                            const Spacer(),
+                            ElevatedButton.icon(
+                                onPressed: onSave,
+                                icon: const Icon(Icons.data_saver_on_rounded),
+                                label: const Text("Save")),
+                          ],
+                        ),
                       ],
                     ),
-                  ],
-                ),
-              )),
+                  )),
+            ),
+          ],
         ),
       ),
     );

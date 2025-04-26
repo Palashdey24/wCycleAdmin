@@ -11,6 +11,7 @@ import 'package:wcycle_admin_panel/page/add/add_littered_spot_items.dart';
 import 'package:wcycle_admin_panel/page/add/add_news.dart';
 import 'package:wcycle_admin_panel/page/add/add_recyclecategory.dart';
 import 'package:wcycle_admin_panel/page/dashboard_page.dart';
+import 'package:wcycle_admin_panel/page/event_page.dart';
 import 'package:wcycle_admin_panel/page/littered_spot_page.dart';
 import 'package:wcycle_admin_panel/page/news_page.dart';
 import 'package:wcycle_admin_panel/page/recycle_page.dart';
@@ -49,7 +50,7 @@ class HomeScreen extends ConsumerWidget {
     DashboardPage.pageConfig,
     RecyclePage.pageConfig,
     LitteredSpotPage.pageConfig,
-    RecyclePage.pageConfig,
+    EventsPage.pageConfig,
     NewsPage.pageConfig,
     StorePage.pageConfig,
   ];
@@ -95,8 +96,7 @@ class HomeScreen extends ConsumerWidget {
               width: apis.deviceWidth(context),
               height: apis.deviceHeight(context),
               child: Padding(
-                padding:
-                    const EdgeInsets.only(left: largeGap, top: largeGap * 2),
+                padding: const EdgeInsets.only(left: largeGap, top: largeGap),
                 child: Flex(
                   direction: Axis.horizontal,
                   children: [

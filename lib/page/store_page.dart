@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wcycle_admin_panel/core/dimensions/app_gap.dart';
+import 'package:wcycle_admin_panel/core/dimensions/device_size.dart';
 import 'package:wcycle_admin_panel/core/page_config.dart';
 import 'package:wcycle_admin_panel/model/store_model.dart';
 import 'package:wcycle_admin_panel/page/store_profile_page.dart';
@@ -18,6 +19,19 @@ class StorePage extends StatelessWidget {
     ValueNotifier<String> selecteVerify = ValueNotifier<String>("All");
 
     List<StoreModel> storeDataList = [];
+
+/*    final fsRef = FirebaseFirestore.instance.collection('events');
+
+    fsRef.snapshots().listen(
+      (event) {
+        final cities = [];
+        for (var doc in event.docs) {
+          cities.add(doc.data());
+        }
+
+        print(jsonEncode(cities));
+      },
+    );*/
 
     return ValueListenableBuilder(
       valueListenable: selecteVerify,
@@ -56,9 +70,12 @@ class StorePage extends StatelessWidget {
                         ).toList();
                   return Expanded(
                     child: GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithMaxCrossAxisExtent(
-                              maxCrossAxisExtent: 300),
+                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 300,
+                          childAspectRatio:
+                              DeviceSize.getDeviceHeight(context) <= 800
+                                  ? 1.5
+                                  : 1.25),
                       itemCount: storeFiltered.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(

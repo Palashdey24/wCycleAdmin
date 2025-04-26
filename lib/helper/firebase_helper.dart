@@ -12,7 +12,7 @@ class FirebaseHelper {
   static final storageRefs = FirebaseStorage.instance;
   static final fireStore = FirebaseFirestore.instance;
 
-  Future<String> uploadImage(String folder, String subFolder,
+  static Future<String> uploadImage(String folder, String subFolder,
       PickedFile pickImgFile, File pickfile) async {
     final extension = subFolder.split(".").last;
     Reference storageRefImg = storageRefs.ref().child(folder).child(subFolder);
@@ -23,15 +23,45 @@ class FirebaseHelper {
     return uploadUri;
   }
 
+  static Future<String?> upFirestoreDataWithID(
+      Map<String, dynamic> firestoreData,
+      BuildContext context,
+      DocumentReference<Map<String, dynamic>> ref) async {
+    DialogsHelper().showProgressBar(context);
+
+    try {
+      final upRecycleData = await ref.set(firestoreData).then(
+        (value) {
+          if (context.mounted) {
+            Navigator.pop(context);
+            DialogsHelper.showMessage(context, "Added Successfully");
+            return value;
+          }
+        },
+      );
+
+      return "Data added";
+    } on FirebaseException catch (error) {
+      if (!context.mounted) return null;
+
+      Navigator.pop(context);
+      DialogsHelper.showMessage(context, "Something Wrong: ${error.message}");
+      return null;
+    }
+  }
+
   //This is canbe reusable helper for added data on firebase
 
-  Future<String?> upFirestoreData(Map<String, dynamic> recycleData,
-      String fsString, BuildContext context) async {
+  static Future<String?> upFirestoreData(
+    Map<String, dynamic> firestoreData,
+    String fsString,
+    BuildContext context,
+  ) async {
     DialogsHelper().showProgressBar(context);
     final reference = fireStore.collection(fsString);
 
     try {
-      final upRecycleData = await reference.add(recycleData).then(
+      final upRecycleData = await reference.add(firestoreData).then(
         (value) {
           if (context.mounted) {
             Navigator.pop(context);

@@ -12,7 +12,6 @@ import 'package:wcycle_admin_panel/widgets/form_text_texts.dart';
 import 'package:wcycle_admin_panel/widgets/upload_image.dart';
 
 final api = Apis();
-final firebaseHelper = FirebaseHelper();
 
 class AddRecycableCategory extends StatelessWidget {
   const AddRecycableCategory({
@@ -45,7 +44,7 @@ class AddRecycableCategory extends StatelessWidget {
         } else {
           //Sent recycle data by Map to FirebaseHelper class where the function upload the data
 
-          final upData = firebaseHelper.upFirestoreData({
+          final upData = FirebaseHelper.upFirestoreData({
             //"userId": userID,
             "productName": recycleName,
             //"ProductPrice": recyclePrice,

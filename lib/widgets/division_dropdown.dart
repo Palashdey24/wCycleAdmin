@@ -8,12 +8,14 @@ class DivisionDropdown extends StatefulWidget {
       required this.formFieldValidator,
       required this.onDropdownFn,
       required this.dropLevel,
-      required this.dropHint});
+      required this.dropHint,
+      this.onSaved});
 
   final void Function(String value) onDropdownFn;
   final FormFieldValidator<String> formFieldValidator;
   final String dropLevel;
   final String dropHint;
+  final Function(String?)? onSaved;
 
   @override
   State<DivisionDropdown> createState() => _DivisionDropdownState();
@@ -52,6 +54,7 @@ class _DivisionDropdownState extends State<DivisionDropdown> {
               child: Text(divisions),
             )
         ],
+        onSaved: widget.onSaved,
         onChanged: (value) {
           setState(() {
             selectDiv = value;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wcycle_admin_panel/config/theme/app_color.dart';
 import 'package:wcycle_admin_panel/config/theme/app_font.dart';
 import 'package:wcycle_admin_panel/core/dimensions/app_gap.dart';
+import 'package:wcycle_admin_panel/core/dimensions/device_size.dart';
 import 'package:wcycle_admin_panel/helper/font_helper.dart';
 import 'package:wcycle_admin_panel/model/littered_model.dart';
 import 'package:wcycle_admin_panel/widgets/waste_material_chips.dart';
@@ -26,7 +27,6 @@ class LitteredListItemInfo extends StatelessWidget {
       }
     }
 
-    final themes = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.only(left: 70.0, right: 10),
       child: Column(
@@ -36,7 +36,7 @@ class LitteredListItemInfo extends StatelessWidget {
         children: [
           Text(
             ltList.litteredTittle,
-            style: themes.titleSmall!.copyWith(
+            style: AppFont.textMedium(context).copyWith(
               color: Colors.blue,
               fontWeight: FontWeight.bold,
             ),
@@ -73,7 +73,20 @@ class LitteredListItemInfo extends StatelessWidget {
             "Level: ${ltList.litteredImpactLevel.toUpperCase()}",
             style: AppFont.textSmall(context),
           ),
-          WasteMaterialChips(ltWCat: ltList.litteredWasteMat),
+          if (DeviceSize.getDeviceHeight(context) >= 1000)
+            WasteMaterialChips(ltWCat: ltList.litteredWasteMat),
+          if (DeviceSize.getDeviceHeight(context) < 1000)
+            Wrap(
+              direction: Axis.horizontal,
+              children: [
+                ...ltList.litteredWasteMat.map(
+                  (e) => Text(
+                    "[$e] ",
+                    style: AppFont.textSmall(context),
+                  ),
+                ),
+              ],
+            ),
         ],
       ),
     );

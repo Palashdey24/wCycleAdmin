@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:wcycle_admin_panel/config/theme/app_color.dart';
 import 'package:wcycle_admin_panel/config/theme/app_font.dart';
 import 'package:wcycle_admin_panel/model/news_model.dart';
@@ -32,14 +31,14 @@ class CarouselCard extends StatelessWidget {
               children: [
                 Text(
                   newsModel.newsTittle!,
+                  maxLines: 2,
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.damion(
-                    color: Colors.white,
-                  ),
+                  style:
+                      AppFont.textSmall(context).copyWith(color: Colors.white),
                 ),
                 Text(
                   style: AppFont.textMedium(context),
-                  maxLines: 4,
+                  maxLines: 3,
                   newsModel.newsDescription!,
                 ),
                 TextButton(

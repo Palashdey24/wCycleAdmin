@@ -80,7 +80,7 @@ class LitteredSpotPage extends StatelessWidget {
             ),
             const Gap(AppGap.kNormalGap),
             SizedBox(
-              height: apis.deviceHeight(context) - 400,
+              height: apis.deviceHeight(context) - bottomGap,
               child: FutureBuilder(
                   future: FirebaseFirestore.instance
                       .collection("litteredSpot")
@@ -108,12 +108,14 @@ class LitteredSpotPage extends StatelessWidget {
                           ltListModel: litteredDataList[index],
                         );
                       },
-                      gridDelegate:
-                          const SliverGridDelegateWithMaxCrossAxisExtent(
-                              maxCrossAxisExtent: 400,
-                              childAspectRatio: 1,
-                              mainAxisSpacing: AppGap.kLargeGap,
-                              crossAxisSpacing: AppGap.kMediumGap),
+                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 300,
+                          childAspectRatio:
+                              DeviceSize.getDeviceHeight(context) > 1000
+                                  ? 0.75
+                                  : 1,
+                          mainAxisSpacing: AppGap.kLargeGap,
+                          crossAxisSpacing: AppGap.kMediumGap),
                     );
                   }),
             )

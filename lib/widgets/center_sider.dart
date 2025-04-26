@@ -32,7 +32,6 @@ class CenterSider extends ConsumerWidget {
         direction: Axis.vertical,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Gap(largeGap),
           Row(
             children: [
               Column(
@@ -64,7 +63,7 @@ class CenterSider extends ConsumerWidget {
               ),
             ],
           ),
-          const Gap(largeGap + 30),
+          const Gap(largeGap),
           Expanded(child: slidePage),
         ],
       ),

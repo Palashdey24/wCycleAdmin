@@ -44,7 +44,6 @@ class RecyclePage extends StatelessWidget {
         child: Column(
           spacing: AppGap.kNormalGap,
           children: [
-            const Gap(csGap),
             Flex(
               direction: Axis.horizontal,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -92,7 +91,7 @@ class RecyclePage extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: apis.deviceHeight(context) - 400,
+              height: apis.deviceHeight(context) - bottomGap,
               child: FutureBuilder(
                   future: FirebaseFirestore.instance
                       .collection("recycleProduct")

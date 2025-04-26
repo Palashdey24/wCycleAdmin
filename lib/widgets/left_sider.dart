@@ -5,6 +5,7 @@ import 'package:wcycle_admin_panel/api/apis.dart';
 import 'package:wcycle_admin_panel/config/theme/app_color.dart';
 import 'package:wcycle_admin_panel/config/theme/app_font.dart';
 import 'package:wcycle_admin_panel/core/dimensions/app_gap.dart';
+import 'package:wcycle_admin_panel/core/dimensions/device_size.dart';
 import 'package:wcycle_admin_panel/data/side_list_data.dart';
 import 'package:wcycle_admin_panel/helper/font_helper.dart';
 import 'package:wcycle_admin_panel/providers/positions_switcher/switch_drawer_provider.dart';
@@ -22,7 +23,7 @@ class LeftSider extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final onDrawer = ref.watch(swichDrawerProviders);
-    final deviceHeight = apis.deviceHeight(context);
+    final deviceHeight = DeviceSize.getDeviceHeight(context);
     final deviceWidth = apis.deviceWidth(context);
 
     return SizedBox(
@@ -77,8 +78,7 @@ class LeftSider extends ConsumerWidget {
                       ),
                     ),
                     const Gap(AppGap.kMediumGap),
-                    SizedBox(
-                      height: deviceHeight * 0.6,
+                    Expanded(
                       child: ListView(
                         children: [
                           for (final sideitems in sideListData)
@@ -89,6 +89,10 @@ class LeftSider extends ConsumerWidget {
                               isActive: sideitems.isActive,
                               ltPost: sideitems.ltPositon,
                             ),
+                          if (onDrawer && deviceHeight <= 800)
+                            const Align(
+                                alignment: Alignment.bottomCenter,
+                                child: LeftSiderProfile()),
                         ],
                       ),
                     )
@@ -96,7 +100,7 @@ class LeftSider extends ConsumerWidget {
                 ),
               ),
             ),
-            if (onDrawer)
+            if (onDrawer && deviceHeight >= 800)
               const Positioned(
                 bottom: 0,
                 child: Align(

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wcycle_admin_panel/config/theme/app_color.dart';
-import 'package:wcycle_admin_panel/helper/sign_helper.dart';
+import 'package:wcycle_admin_panel/core/dimensions/device_size.dart';
 
 class AppFont {
   static TextStyle textLarge(BuildContext context) {
-    double width = apis.deviceWidth(context);
+    double height = DeviceSize.getDeviceHeight(context);
     final textTheme = Theme.of(context).textTheme;
 
-    final double fontSize = width <= 400 ? 22 : 30;
+    final double fontSize = height <= 1000 ? 22 : 30;
 
     return textTheme.displayLarge!.copyWith(
         fontWeight: FontWeight.bold,
@@ -17,10 +17,10 @@ class AppFont {
   }
 
   static TextStyle textMedium(BuildContext context) {
-    double width = apis.deviceWidth(context);
+    double height = DeviceSize.getDeviceHeight(context);
     final textTheme = Theme.of(context).textTheme;
 
-    final double fontSize = width <= 400 ? 12 : 16;
+    final double fontSize = height <= 1000 ? 12 : 16;
 
     return textTheme.headlineMedium!.copyWith(
         fontWeight: FontWeight.bold,
@@ -29,10 +29,10 @@ class AppFont {
   }
 
   static TextStyle textSmall(BuildContext context) {
-    double width = apis.deviceWidth(context);
+    double height = DeviceSize.getDeviceHeight(context);
     final textTheme = Theme.of(context).textTheme;
 
-    final double fontSize = width <= 400 ? 10 : 12;
+    final double fontSize = height <= 1000 ? 10 : 12;
 
     return textTheme.bodySmall!.copyWith(
         fontWeight: FontWeight.bold,
@@ -41,9 +41,9 @@ class AppFont {
   }
 
   static TextStyle tittleStyleSecond(BuildContext context) {
-    double width = apis.deviceWidth(context);
+    double height = DeviceSize.getDeviceHeight(context);
 
-    final double fontSize = width <= 400 ? 20 : 25;
+    final double fontSize = height <= 1000 ? 20 : 25;
 
     return GoogleFonts.rubikVinyl(
         color: AppColor.kSixthColor,
@@ -53,9 +53,9 @@ class AppFont {
   }
 
   static TextStyle tittleStyleFirst(BuildContext context) {
-    double width = apis.deviceWidth(context);
+    double height = DeviceSize.getDeviceHeight(context);
 
-    final double fontSize = 25 * (width / 400);
+    final double fontSize = 25 * (height / 400);
 
     return GoogleFonts.pattaya(
         color: AppColor.kFifthColor,

@@ -61,7 +61,7 @@ class _UploadImageState extends State<UploadImage> {
 
     //The below PickedFile are use for web
     PickedFile pfile = PickedFile(pickImageFile!.path);
-    uploadUri = await firebaseHelper.uploadImage(widget.storageRef,
+    uploadUri = await FirebaseHelper.uploadImage(widget.storageRef,
         pickFile.name.split("_").last, pfile, pickImageFile!);
 
     if (uploadUri != null) {

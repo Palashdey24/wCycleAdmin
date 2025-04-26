@@ -66,7 +66,7 @@ class NewsPage extends StatelessWidget {
             ),
             const Gap(AppGap.kNormalGap),
             SizedBox(
-              height: apis.deviceHeight(context) - 400,
+              height: apis.deviceHeight(context) - bottomGap,
               child: FutureBuilder(
                   future: FirebaseFirestore.instance.collection("News").get(),
                   builder: (context, snapshot) {
@@ -99,7 +99,7 @@ class NewsPage extends StatelessWidget {
                       },
                       gridDelegate:
                           const SliverGridDelegateWithMaxCrossAxisExtent(
-                              maxCrossAxisExtent: 400,
+                              maxCrossAxisExtent: 300,
                               childAspectRatio: 1.25,
                               mainAxisSpacing: AppGap.kLargeGap,
                               crossAxisSpacing: AppGap.kLargeGap),
